@@ -38,3 +38,4 @@ def ask_question(question, collection_name="rag_collection"):
         #  Print and raise error if anything goes wrong
         print(" Error in qa.py:", str(e))
         raise HTTPException(status_code=500, detail=f"QA internal error: {e}")
+
