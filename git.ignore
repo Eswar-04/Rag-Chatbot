@@ -1,1 +1,3 @@
+# Ignore .env and Milvus volumes
+.env
 volumes/

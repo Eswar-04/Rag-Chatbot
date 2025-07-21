@@ -25,7 +25,7 @@ def load_and_split_pdfs():
                 chunk_overlap=50     # how much chunks overlap
             )
             chunks = splitter.split_documents(documents)  #  do the split
-            all_chunks.extend(chunks)  # ➕ Add to final list
+            all_chunks.extend(chunks)  #  Add to final list
 
     print(f"  Total chunks loaded: {len(all_chunks)}")
     return all_chunks  #  Return all chunks

@@ -15,45 +15,29 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Request schema
-class QueryRequest(BaseModel):
-    query: str
-
-# Main chatbot endpoint
-@app.post("/ask")
-async def get_answer(req: QueryRequest):
-    response = ask_question(req.query)
-    return {"answer": response}
-
-# Optional: trigger vector storing
-@app.get("/store")
-def store():
-    store_vectors()
-    return {"status": "Vectors stored"}
-
-
-#  Model for incoming POST request (question from user)
+# Model for incoming POST request (question from user)
 class Question(BaseModel):
     query: str  # frontend will send JSON like { "query": "your question" }
 
-#  POST /ask → accepts question from frontend and returns answer
+# POST /ask → accepts question from frontend and returns answer
 @app.post("/ask")
 async def ask(question: Question):
     answer = ask_question(question.query)  # use qa.py logic to search & get answer
     return {"answer": answer}  # send back to frontend as JSON
 
-#  GET /init → Load all vectors from PDFs into Milvus DB
+# GET /init → Load all vectors from PDFs into Milvus DB
 @app.get("/init")
 async def init_store():
     store_vectors()  # runs the vector storing logic
-    return {"status": " Stored vectors into Milvus"}  # confirmation
+    return {"status": "Stored vectors into Milvus"}  # confirmation
 
-#  CLI (Command Line Interface) support → optional manual running
+# CLI (Command Line Interface) support → optional manual running
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1 and sys.argv[1] == "store":
-        # Example: python main.py store
+        print("🔄 Storing vectors into Milvus DB...")
         store_vectors()
+        print("✅ Vectors stored successfully.")
     else:
-        # If no args, show this message
-        print(" To store data manually, run: python main.py store")
+        print("📌 To manually store vectors, run:")
+        print("   python main.py store")
