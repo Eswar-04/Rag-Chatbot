@@ -78,11 +78,14 @@ def ask_question(question, collection_name="rag_collection"):
         raw_output = qa_model(prompt, max_new_tokens=250, do_sample=False)[0]["generated_text"]
         final_answer = clean_text(raw_output)
 
-        # ✅ Save to Supabase
-        store_qa(question, "text", final_answer, score)
+        # Append vector best score under the answer text
+        final_answer_with_score = f"{final_answer}\n\nVector Best Score: {score:.6f}"
 
-        return {"answer": final_answer, "score": score}
+        #  Save to Supabase
+        store_qa(question, "text", final_answer_with_score, score)
+
+        return {"answer": final_answer_with_score, "score": score}
 
     except Exception as e:
-        print("❌ Error in ask_question:", str(e))
+        print(" Error in ask_question:", str(e))
         raise HTTPException(status_code=500, detail=f"QA internal error: {e}")

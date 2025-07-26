@@ -32,7 +32,7 @@ def extract_all_images(pdf_path, output_dir="images"):
                 image_paths.append((p + 1, path))
         return image_paths
     except Exception as e:
-        print("❌ Error extracting images:", str(e))
+        print(" Error extracting images:", str(e))
         return []
 
 def describe_image(path):
@@ -44,7 +44,7 @@ def describe_image(path):
         desc = blip_processor.decode(out[0], skip_special_tokens=True)
         return clean_text(desc)
     except Exception as e:
-        print(f"❌ Error describing image {path}:", str(e))
+        print(f" Error describing image {path}:", str(e))
         return "No caption available"
 
 def image_question_answering(user_question, pdf_path):
@@ -74,5 +74,5 @@ def image_question_answering(user_question, pdf_path):
 
         return final_answer
     except Exception as e:
-        print("❌ Error in image_question_answering:", str(e))
+        print(" Error in image_question_answering:", str(e))
         return "Image-based QA failed."
