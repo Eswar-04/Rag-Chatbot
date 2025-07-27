@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Set Streamlit page configuration
-st.set_page_config(page_title="AI PDF Assistant", page_icon="📘", layout="centered")
+st.set_page_config(page_title="Chatbot", page_icon="📘", layout="centered")
 
 # Display chatbot title and instructions
 st.markdown("## Chatbot")
