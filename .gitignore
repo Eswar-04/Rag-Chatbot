@@ -1,5 +1,40 @@
-.env 
-__pycache__/ 
-*.pyc 
-*.log 
-.streamlit/ 
+# Environment variables - NEVER commit secrets
+.env
+.env.*
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# HuggingFace / Torch model cache
+.cache/
+*.bin
+*.safetensors
+*.pt
+*.pth
+
+# Extracted images from PDF (large folder, not needed in repo)
+images/
+
+# IDE / OS files
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

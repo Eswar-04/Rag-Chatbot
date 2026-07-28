@@ -1,27 +1,25 @@
+# app/store_vectors.py
 from app.parser import load_and_split_pdfs
 from app.embedding import embed_documents
-from app.milvus_client import connect_milvus, create_collection
+from app.supabase_vector import store_embeddings, clear_vectors
 
 def store_vectors():
     try:
-        connect_milvus()
-        chunks = load_and_split_pdfs()
-        embeddings = embed_documents(chunks)
-        collection = create_collection()
-        texts = [chunk.page_content for chunk in chunks]
-        entities = [embeddings, texts]
-        collection.insert(entities)
-        print(f" Stored {len(embeddings)} vectors into Milvus.")
+        print("🔄 Clearing old vectors...")
+        clear_vectors()
 
-        collection.create_index(
-            field_name="embedding",
-            index_params={
-                "metric_type": "L2",
-                "index_type": "IVF_FLAT",
-                "params": {"nlist": 128}
-            }
-        )
-        collection.load()
-        print(" Collection ready for search.")
+        print("🔄 Loading and splitting PDF...")
+        chunks = load_and_split_pdfs()
+
+        print(f"🔄 Embedding {len(chunks)} chunks...")
+        embeddings = embed_documents(chunks)
+
+        texts = [chunk.page_content for chunk in chunks]
+
+        print("🔄 Storing vectors into Supabase pgvector...")
+        store_embeddings(texts, embeddings.tolist())
+
+        print(f"✅ Successfully stored {len(texts)} vectors into Supabase.")
     except Exception as e:
-        print(" Error in store_vectors:", str(e))
+        print("❌ Error in store_vectors:", str(e))
+        raise

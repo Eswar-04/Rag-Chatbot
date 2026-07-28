@@ -1,7 +1,10 @@
 import streamlit as st
 import requests
+import os
 
 st.set_page_config(page_title="AI PDF Assistant", page_icon="📘", layout="centered")
+
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 st.markdown("## Chatbot")
 st.markdown("Ask any question related to **Artificial Intelligence.pdf**")
@@ -13,7 +16,7 @@ if st.button("Ask") and question:
     with st.spinner("Thinking..."):
         try:
             response = requests.post(
-                "http://localhost:8000/ask",
+                f"{BACKEND_URL}/ask",
                 json={"query": question, "mode": mode.lower()},
                 timeout=300
             )
